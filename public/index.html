@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="API's AI by aka - Simple AI REST API dengan multi-model support">
+  <meta name="keywords" content="AI, API, REST, ChatGPT, Copilot, Image Generation">
+  <meta name="author" content="aka">
+  <meta property="og:title" content="API's AI by aka">
+  <meta property="og:description" content="Simple AI REST API dengan support multi-model">
+  <meta property="og:type" content="website">
+  <title>API's AI by aka</title>
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="icon" href="/assets/logo.png" type="image/png">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="logo">API's AI <span class="by">by aka</span></h1>
+      <p class="tagline">Multi-Model AI REST API</p>
+    </header>
+
+    <main class="main-content">
+      <div class="control-panel">
+        <div class="language-selector">
+          <label for="langSelect">Bahasa:</label>
+          <select id="langSelect">
+            <option value="id" selected>Indonesia</option>
+            <option value="en">English</option>
+            <option value="ms">Melayu (Malaysia)</option>
+            <option value="ar">العربية</option>
+            <option value="zh">中文</option>
+          </select>
+        </div>
+        <button class="clear-btn" id="clearBtn">
+          <span class="btn-icon">×</span> Clear
+        </button>
+      </div>
+
+      <div class="input-section">
+        <div class="input-group">
+          <label for="aiName">Nama AI:</label>
+          <input type="text" id="aiName" value="KA AI" readonly class="readonly-input">
+        </div>
+        <div class="input-group">
+          <label for="queryInput">Query:</label>
+          <textarea id="queryInput" placeholder="Tanyakan apa saja atau buat gambar (contoh: 'create image of a cat')..." rows="4"></textarea>
+        </div>
+        <button class="exec-btn" id="execBtn">
+          <span class="btn-icon">▶</span> Exec
+        </button>
+      </div>
+
+      <div class="loading-section" id="loadingSection">
+        <div class="spinner"></div>
+        <p>Memproses permintaan...</p>
+      </div>
+
+      <div class="result-section" id="resultSection">
+        <div class="result-header">
+          <h3>Execution Result</h3>
+          <button class="copy-btn" id="copyResultBtn">
+            <span class="btn-icon">📋</span> Salin
+          </button>
+        </div>
+        <div class="result-box" id="resultBox">
+          <div class="result-content">
+            <h4>Metadata</h4>
+            <pre id="metadataPre"></pre>
+            <h4>Response</h4>
+            <pre id="responsePre"></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="curl-section">
+        <div class="curl-header">
+          <h3>Contoh cURL</h3>
+          <button class="copy-btn" id="copyCurlBtn">
+            <span class="btn-icon">📋</span> Salin
+          </button>
+        </div>
+        <div class="curl-box">
+          <pre id="curlPre"></pre>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <h3>Hubungi Saya</h3>
+        <p>Portofolio: <a href="https://akadev.my.id" target="_blank" rel="noopener">akadev.my.id</a></p>
+        <p>Email: <a href="mailto:akaanakbaik17@proton.me">akaanakbaik17@proton.me</a></p>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>made with <span class="heart">❤️</span> and code by aka</p>
+    </footer>
+  </div>
+
+  <div class="notification" id="notification"></div>
+
+  <script src="/js/notif.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
