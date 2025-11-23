@@ -1,0 +1,27 @@
+{
+  "name": "apis-ai-by-aka",
+  "version": "1.0.0",
+  "description": "Simple AI REST API by aka",
+  "main": "server.js",
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["ai", "api", "copilot", "gpt", "nodejs"],
+  "author": "aka",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "ws": "^8.14.2",
+    "axios": "^1.6.0",
+    "uuid": "^9.0.1",
+    "form-data": "^4.0.0",
+    "@supabase/supabase-js": "^2.38.4",
+    "helmet": "^7.1.0"
+  }
+}
