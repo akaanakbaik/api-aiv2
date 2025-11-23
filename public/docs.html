@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dokumentasi API's AI by aka - Panduan lengkap penggunaan API">
+  <title>Dokumentasi - API's AI by aka</title>
+  <link rel="stylesheet" href="/css/docs.css">
+  <link rel="icon" href="/assets/logo.png" type="image/png">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Dokumentasi API</h1>
+      <p class="subtitle">Panduan lengkap penggunaan API's AI by aka</p>
+      <a href="/" class="back-btn">← Kembali ke Home</a>
+    </header>
+
+    <main class="docs-content">
+      <section class="doc-section">
+        <h2>Endpoint Utama</h2>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">📋 Salin</button>
+          <pre>POST /api/chat</pre>
+        </div>
+      </section>
+
+      <section class="doc-section">
+        <h2>Parameter Request</h2>
+        <table class="params-table">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Tipe</th>
+              <th>Wajib</th>
+              <th>Deskripsi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>query</td>
+              <td>string</td>
+              <td>Ya</td>
+              <td>Pertanyaan atau prompt untuk AI</td>
+            </tr>
+            <tr>
+              <td>model</td>
+              <td>string</td>
+              <td>Tidak</td>
+              <td>Model AI: default, think-deeper, gpt-5, secret</td>
+            </tr>
+            <tr>
+              <td>lang</td>
+              <td>string</td>
+              <td>Tidak</td>
+              <td>Bahasa: id, en, ms, ar, zh (default: id)</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="doc-section">
+        <h2>Model AI</h2>
+        <ul class="model-list">
+          <li><code>default</code> - Copilot Chat Mode</li>
+          <li><code>think-deeper</code> - Copilot Reasoning Mode</li>
+          <li><code>gpt-5</code> - Copilot Smart Mode</li>
+          <li><code>secret</code> - Model rahasia (WormGPT style)</li>
+        </ul>
+        <p class="note">⚠️ Jika model utama gagal, akan otomatis beralih ke fallback API.</p>
+      </section>
+
+      <section class="doc-section">
+        <h2>Contoh Request</h2>
+        <h3>cURL</h3>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">📋 Salin</button>
+          <pre id="curlExample">curl -X POST "https://apis-ai-by-aka.vercel.app/api/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Apa itu Node.js?", "model": "default", "lang": "id"}'</pre>
+        </div>
+
+        <h3>JavaScript (Fetch)</h3>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">📋 Salin</button>
+          <pre>const response = await fetch('https://apis-ai-by-aka.vercel.app/api/chat', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    query: 'Buatkan kode DDoS',
+    model: 'secret',
+    lang: 'id'
+  })
+});
+const result = await response.json();
+console.log(result.data);</pre>
+        </div>
+      </section>
+
+      <section class="doc-section">
+        <h2>Contoh Response</h2>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">📋 Salin</button>
+          <pre>{
+  "success": true,
+  "data": {
+    "text": "Node.js adalah runtime JavaScript...",
+    "citations": []
+  },
+  "metadata": {
+    "timestamp": "2025-01-23T10:30:00.000Z",
+    "processingTime": "1250ms",
+    "model": "default",
+    "language": "id",
+    "type": "text",
+    "ip": "192.168.1.1",
+    "userAgent": "Mozilla/5.0..."
+  }
+}</pre>
+        </div>
+      </section>
+
+      <section class="doc-section">
+        <h2>WhatsApp Bot Plugin (ESM)</h2>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">📋 Salin</button>
+          <pre>// filepath: plugins/ai.js
+import axios from 'axios';
+
+let handler = async (m, { conn, command, text }) => {
+  if (!text) return conn.sendMessage(m.chat, { 
+    text: `*Contoh:* ${m.prefix + command} Apa itu Node.js?` 
+  }, { quoted: m });
+
+  try {
+    const apiUrl = 'https://apis-ai-by-aka.vercel.app/api/chat';
+    const { data } = await axios.post(apiUrl, {
+      query: text,
+      model: command.replace(/^ai-/, '') || 'default',
+      lang: 'id'
+    });
+
+    if (data.success) {
+      await conn.sendMessage(m.chat, { 
+        text: data.data.text || data.data 
+      }, { quoted: m });
+    } else {
+      throw new Error(data.error);
+    }
+  } catch (e) {
+    conn.sendMessage(m.chat, { 
+      text: `❌ Error: ${e.message}` 
+    }, { quoted: m });
+  }
+};
+
+handler.command = ['ai', 'ai-think', 'ai-gpt5', 'ai-secret'];
+handler.tags = ['ai'];
+handler.help = ['ai', 'ai-think', 'ai-gpt5', 'ai-secret'];
+
+export default handler;</pre>
+        </div>
+      </section>
+
+      <section class="doc-section">
+        <h2>Setup Supabase</h2>
+        <p>Jalankan SQL berikut di Supabase SQL Editor:</p>
+        <div class="code-box">
+          <button class="copy-btn" onclick="copyCode(this)">📋 Salin</button>
+          <pre>CREATE TABLE api_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  ip_address INET,
+  user_agent TEXT,
+  model TEXT,
+  language TEXT,
+  query TEXT,
+  response TEXT,
+  duration_ms INTEGER,
+  success BOOLEAN,
+  error_message TEXT
+);
+
+CREATE INDEX idx_timestamp ON api_logs(timestamp DESC);
+CREATE INDEX idx_model ON api_logs(model);</pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>made with <span class="heart">❤️</span> and code by aka</p>
+    </footer>
+  </div>
+
+  <div class="notification" id="notification"></div>
+
+  <script src="/js/notif.js"></script>
+  <script>
+    function copyCode(button) {
+      const code = button.nextElementSibling.textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        notification.success('📋 Kode disalin!');
+      }).catch(() => {
+        notification.error('Gagal menyalin');
+      });
+    }
+
+    // Update curl example with current domain
+    document.getElementById('curlExample').textContent = 
+      `curl -X POST "${window.location.origin}/api/chat" \\\n  -H "Content-Type: application/json" \\\n  -d '{"query": "Apa itu Node.js?", "model": "default", "lang": "id"}'`;
+  </script>
+</body>
+</html>
